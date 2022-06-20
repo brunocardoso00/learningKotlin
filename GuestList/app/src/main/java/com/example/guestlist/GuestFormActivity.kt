@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.guestlist.databinding.ActivityGuestFormBinding
+import com.example.guestlist.service.model.GuestModel
 
 class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -17,12 +18,12 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
 
         binding = ActivityGuestFormBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         mViewModel = ViewModelProvider(this).get(GuestFormViewModel::class.java)
 
-        setListiners()
+        binding.buttonSave.setOnClickListener(this)
+        binding.radioPresent.isChecked = true
     }
 
     override fun onClick(v: View) {
@@ -32,16 +33,11 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
             val name = binding.editName.text.toString()
             val presence = binding.radioPresent.isChecked
 
-            mViewModel.save(name, presence)
+            observe( mViewModel.insert(GuestModel(0,name, presence)))
         }
     }
 
-    private fun setListiners() {
-        binding.buttonSave.setOnClickListener(this)
-
-    }
-
-    private fun observe() {
+    private fun observe(success: Boolean) {
         mViewModel.saveGuest.observe(this, Observer
         {
             if (it) {

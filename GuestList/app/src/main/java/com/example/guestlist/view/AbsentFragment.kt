@@ -1,4 +1,4 @@
-package com.example.guestlist.ui.slideshow
+package com.example.guestlist.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
