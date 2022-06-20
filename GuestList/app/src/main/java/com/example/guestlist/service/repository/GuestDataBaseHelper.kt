@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.example.guestlist.service.constants.DataBaseConstants
 
 class GuestDataBaseHelper(context: Context) : SQLiteOpenHelper(
-    context, DATABASE_NAME, null,
-    DATABASE_VERSION
+    context, NAME, null,
+    VERSION
 ) {
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -20,13 +20,13 @@ class GuestDataBaseHelper(context: Context) : SQLiteOpenHelper(
     }
 
     companion object {
-        private const val DATABASE_VERSION = 1
-        private const val DATABASE_NAME = "convidados.db"
+        private const val VERSION = 1
+        private const val NAME = "guestdb"
 
         private const val CREATE_TABLE_GUEST =
-            ("create table" + DataBaseConstants.GUEST.TABLE_NAME + "("
-                    + DataBaseConstants.GUEST.COLUMNS.ID + "integer primary key autoincrement,"
-                    + DataBaseConstants.GUEST.COLUMNS.NAME + "text,"
-                    + DataBaseConstants.GUEST.COLUMNS.PRESENCE + "integer);")
+            ("CREATE TABLE " + DataBaseConstants.GUEST.TABLE_NAME + "("
+                    + DataBaseConstants.GUEST.COLUMNS.ID + " integer primary key autoincrement,"
+                    + DataBaseConstants.GUEST.COLUMNS.NAME + " text,"
+                    + DataBaseConstants.GUEST.COLUMNS.PRESENCE + " integer);")
     }
 }
