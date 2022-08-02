@@ -1,5 +1,6 @@
 package com.example.guestlist.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.guestlist.GuestFormActivity
 import com.example.guestlist.databinding.FragmentHomeBinding
+import com.example.guestlist.service.constants.DataBaseConstants
 import com.example.guestlist.view.adapter.GuestsAdapter
 import com.example.guestlist.view.listener.OnGuestListener
 
@@ -35,12 +38,16 @@ class AllGuestsFragment : Fragment() {
         binding.recyclerAllGuests.adapter = adapter
         val listener = object : OnGuestListener {
             override fun onClick(id: Int) {
-                Toast.makeText(context, "fui clicado $id", Toast.LENGTH_SHORT).show()
-
+                val intent = Intent(context, GuestFormActivity:: class.java)
+                val bundle = Bundle()
+                bundle.putInt(DataBaseConstants.GUEST.ID, id)
+                intent.putExtras(bundle)
+                startActivity(intent)
             }
 
-            override fun onDelete() {
-                TODO("Not yet implemented")
+            override fun onDelete(id: Int) {
+                homeViewModel.delete(id)
+                homeViewModel.getAll()
             }
 
         }
@@ -58,6 +65,12 @@ class AllGuestsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume()
+    {
+        super.onResume()
+        homeViewModel.getAll()
     }
 
     private fun observe() {
